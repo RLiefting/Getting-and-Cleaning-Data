@@ -1,0 +1,46 @@
+
+Quiz 1 
+
+question 1
+
+fileurl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
+file <- file.path(getwd(), "ss06hid.csv")
+download.file(fileurl, file)
+df <- tbl_df(read.csv(file))
+
+df_VAL <- select(df, VAL)
+worth <- filter(df_VAL, VAL == "24")
+dim(worth)
+
+question 3
+
+fileurl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx"
+file <- file.path(getwd(), "DATA.gov_NGAP.xlsx")
+download.file(fileurl, file, mode = "wb")
+df <- read.xlsx(file,sheetIndex = 1)
+
+
+
+rows <- 18:23
+cols <- 7:15
+dat <- read.xlsx(file, 1, colIndex = cols, rowIndex = rows)
+sum(dat$Zip * dat$Ext, na.rm = T)
+
+Q 4
+
+
+fileurl <- "http://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+file <- file.path(getwd(), "DATA.gov_NGAP.xlsx")
+download.file(fileurl, file, mode = "wb")
+
+
+fileurl <- "http://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml"
+doc <- xmlTreeParse(fileurl, useInternal = TRUE)
+rootNode <- xmlRoot(doc)
+xmlName(rootNode)
+
+names(rootNode)
+rootNode[[1]][[1]]
+names(rootNode[[1]][[1]])
+zipcode <- xpathSApply(rootNode, "//zipcode", xmlValue)
+table(zipcode == 21231)
