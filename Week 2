@@ -1,0 +1,37 @@
+Week 2 video lessons
+
+*MySQL
+
+ucsDb <- dbConnect(MySQL(), user="genome",host="genome-mysql.cse.ucsc.edu")
+result <-dbGetQuery(ucsDb, "show databases;"); dbDisconnect(ucsDb);
+
+hg19 <- dbConnect(MySQL(), user="genome",db="hg19", host="genome-mysql.cse.ucsc.edu")
+allTables <- dbListTables(hg19)
+length(allTables)
+dbListFields(hg19, "affyU133Plus2")
+affyData <- dbReadTable(hg19, "affyU133Plus2")
+head(affyData)
+
+result <-dbGetQuery(hg19, "show databases;"); dbDisconnect(hg19);
+
+*HDF5
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("rhdf5")
+
+library(rhdf5)
+created = h5createFile("example.h5")
+created
+
+created = h5createGroup("example.h5", "foo")
+created = h5createGroup("example.h5", "baa")
+created = h5createGroup("example.h5", "foo/foobaa")
+h5ls("example.h5")
+
+A= matrix(1:10, nr=5,nc=2)
+h5write(A,"example.h5", "foo/A")
+B = array(seq(0.1,201, by=0.1), dim=c(5,2,2))
+attr(B, "scale") <- "liter"
+h5write(B, "example.h5", "foo/foobaa/B")
+h5ls("example.h5")
+
